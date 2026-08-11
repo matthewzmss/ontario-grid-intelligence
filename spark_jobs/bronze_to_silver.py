@@ -1,18 +1,4 @@
-"""
-Step 3: Bronze → Silver
 
-Reads Bronze Delta tables and applies:
-  - Type casting (strings → proper types)
-  - Deduplication
-  - Null handling
-  - Feature enrichment (time features, categories, pivots)
-
-Writes cleaned data to data/silver/ as Delta tables.
-
-Usage:
-    python spark_jobs/bronze_to_silver.py
-    make spark-silver
-"""
 
 import os
 from pyspark.sql import SparkSession

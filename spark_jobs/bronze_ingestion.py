@@ -1,13 +1,4 @@
-"""
-Step 2: Bronze Ingestion
 
-Reads raw CSV files from data/raw/ and writes them as Delta Lake tables
-to data/bronze/. This is a format conversion only — no transformations.
-
-Usage:
-    python spark_jobs/bronze_ingestion.py
-    make spark-bronze
-"""
 
 import os
 from pyspark.sql import SparkSession
@@ -44,7 +35,7 @@ def ingest_demand(spark):
     delta_path = os.path.join(BRONZE_DIR, "demand")
 
     if not os.path.exists(csv_path):
-        print("  ⚠️  No demand data found in data/raw/demand/")
+        print(" No demand data found in data/raw/demand/")
         return
 
     df = spark.read.csv(csv_path, header=True, inferSchema=True)
@@ -54,7 +45,7 @@ def ingest_demand(spark):
             df = df.drop(col)
 
     df.write.format("delta").mode("overwrite").save(delta_path)
-    print(f"  ✅ demand: {df.count()} rows → {delta_path}")
+    print(f"  demand: {df.count()} rows → {delta_path}")
 
 
 def ingest_generation(spark):
@@ -63,7 +54,7 @@ def ingest_generation(spark):
     delta_path = os.path.join(BRONZE_DIR, "generation")
 
     if not os.path.exists(csv_path):
-        print("  ⚠️  No generation data found in data/raw/generation/")
+        print("  No generation data found in data/raw/generation/")
         return
 
     df = spark.read.csv(csv_path, header=True, inferSchema=True)
@@ -72,7 +63,7 @@ def ingest_generation(spark):
             df = df.drop(col)
 
     df.write.format("delta").mode("overwrite").save(delta_path)
-    print(f"  ✅ generation: {df.count()} rows → {delta_path}")
+    print(f"  generation: {df.count()} rows → {delta_path}")
 
 
 def ingest_prices(spark):
@@ -81,7 +72,7 @@ def ingest_prices(spark):
     delta_path = os.path.join(BRONZE_DIR, "prices")
 
     if not os.path.exists(csv_path):
-        print("  ⚠️  No price data found in data/raw/prices/")
+        print("  No price data found in data/raw/prices/")
         return
 
     df = spark.read.csv(csv_path, header=True, inferSchema=True)
@@ -90,7 +81,7 @@ def ingest_prices(spark):
             df = df.drop(col)
 
     df.write.format("delta").mode("overwrite").save(delta_path)
-    print(f"  ✅ prices: {df.count()} rows → {delta_path}")
+    print(f"  prices: {df.count()} rows → {delta_path}")
 
 
 def ingest_realtime(spark):
@@ -99,7 +90,7 @@ def ingest_realtime(spark):
     delta_path = os.path.join(BRONZE_DIR, "realtime")
 
     if not os.path.exists(csv_path):
-        print("  ⚠️  No realtime data found in data/raw/realtime/")
+        print("   No realtime data found in data/raw/realtime/")
         return
 
     df = spark.read.csv(csv_path, header=True, inferSchema=True)
@@ -108,7 +99,7 @@ def ingest_realtime(spark):
             df = df.drop(col)
 
     df.write.format("delta").mode("overwrite").save(delta_path)
-    print(f"  ✅ realtime: {df.count()} rows → {delta_path}")
+    print(f"  realtime: {df.count()} rows → {delta_path}")
 
 
 def ingest_intertie(spark):
@@ -117,7 +108,7 @@ def ingest_intertie(spark):
     delta_path = os.path.join(BRONZE_DIR, "intertie")
 
     if not os.path.exists(csv_path):
-        print("  ⚠️  No intertie data found in data/raw/intertie/")
+        print("  No intertie data found in data/raw/intertie/")
         return
 
     df = spark.read.csv(csv_path, header=True, inferSchema=True)
@@ -126,7 +117,7 @@ def ingest_intertie(spark):
             df = df.drop(col)
 
     df.write.format("delta").mode("overwrite").save(delta_path)
-    print(f"  ✅ intertie: {df.count()} rows → {delta_path}")
+    print(f"  intertie: {df.count()} rows → {delta_path}")
 
 
 def ingest_weather(spark):
@@ -135,7 +126,7 @@ def ingest_weather(spark):
     delta_path = os.path.join(BRONZE_DIR, "weather")
 
     if not os.path.exists(csv_path):
-        print("  ⚠️  No weather data found in data/raw/weather/")
+        print("  No weather data found in data/raw/weather/")
         return
 
     df = spark.read.csv(csv_path, header=True, inferSchema=True)
@@ -144,7 +135,7 @@ def ingest_weather(spark):
             df = df.drop(col)
 
     df.write.format("delta").mode("overwrite").save(delta_path)
-    print(f"  ✅ weather: {df.count()} rows → {delta_path}")
+    print(f" weather: {df.count()} rows → {delta_path}")
 
 
 if __name__ == "__main__":
