@@ -1,0 +1,7 @@
+fuel_type,fuel_category,is_renewable,carbon_factor_gco2_kwh,display_color,display_order
+Nuclear,Baseload,false,12,#8B5CF6,1
+Hydro,Baseload,true,24,#06B6D4,2
+Wind,Renewable,true,11,#10B981,3
+Solar,Renewable,true,45,#F59E0B,4
+Gas,Peaking,false,490,#EF4444,5
+Biofuel,Renewable,true,230,#84CC16,6

@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  # ── PostgreSQL: Serving Layer for Dashboard ──
+  postgres:
+    image: postgres:16-alpine
+    container_name: ontario-grid-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-grid_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ontario_grid_2026}
+      POSTGRES_DB: ${POSTGRES_DB:-ontario_grid}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ../sql/init_schema.sql:/docker-entrypoint-initdb.d/01_init_schema.sql
+      - ../sql/create_views.sql:/docker-entrypoint-initdb.d/02_create_views.sql
+      - ../sql/indexes.sql:/docker-entrypoint-initdb.d/03_indexes.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-grid_admin} -d ${POSTGRES_DB:-ontario_grid}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Streamlit: Interactive Dashboard ──
+  streamlit:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.streamlit
+    container_name: ontario-grid-dashboard
+    restart: unless-stopped
+    ports:
+      - "${STREAMLIT_PORT:-8501}:8501"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-grid_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ontario_grid_2026}
+      POSTGRES_DB: ${POSTGRES_DB:-ontario_grid}
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ../dashboard:/app/dashboard
+
+volumes:
+  postgres_data:
+    driver: local

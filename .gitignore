@@ -1,0 +1,65 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+docker/.env
+
+# Data files (too large for Git)
+data/raw/
+data/bronze/
+data/silver/
+data/gold/
+*.parquet
+*.delta/
+
+# Keep the data directories but not their contents
+!data/bronze/.gitkeep
+!data/silver/.gitkeep
+!data/gold/.gitkeep
+
+# Jupyter/Databricks checkpoints
+.ipynb_checkpoints/
+
+# ML model artifacts
+ml/models/
+*.pkl
+*.joblib
+
+# Logs
+logs/
+*.log
+
+# Docker volumes
+postgres_data/
+
+# Power BI
+*.pbix
+
+# Test coverage
+.coverage
+htmlcov/
+.pytest_cache/
