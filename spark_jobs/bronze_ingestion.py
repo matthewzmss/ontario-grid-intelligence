@@ -98,7 +98,14 @@ def ingest_realtime(spark):
         if col in df.columns:
             df = df.drop(col)
 
-    df.write.format("delta").mode("overwrite").save(delta_path)
+    # Cast all numeric cols to double to avoid int/float merge conflicts
+    from pyspark.sql.types import IntegerType, LongType
+    from pyspark.sql.functions import col as spark_col
+    for field in df.schema.fields:
+        if isinstance(field.dataType, (IntegerType, LongType)):
+            df = df.withColumn(field.name, spark_col(field.name).cast("double"))
+
+    df.write.format("delta").mode("overwrite").option("overwriteSchema", "true").save(delta_path)
     print(f"  realtime: {df.count()} rows → {delta_path}")
 
 

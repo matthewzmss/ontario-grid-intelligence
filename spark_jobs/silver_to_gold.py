@@ -99,7 +99,7 @@ def build_dim_date(spark):
         ).otherwise("Fall"))
     )
 
-    dim.write.format("delta").mode("overwrite").save(gold_path)
+    dim.write.format("delta").mode("overwrite").option("overwriteSchema", "true").save(gold_path)
     print(f"  ✅ dim_date: {dim.count()} rows")
 
 
@@ -122,7 +122,7 @@ def build_dim_fuel_type(spark):
 
     df = spark.read.csv(seed_path, header=True, inferSchema=True)
 
-    df.write.format("delta").mode("overwrite").save(gold_path)
+    df.write.format("delta").mode("overwrite").option("overwriteSchema", "true").save(gold_path)
     print(f"  ✅ dim_fuel_type: {df.count()} rows")
 
 
@@ -211,7 +211,7 @@ def build_fct_hourly_grid_snapshot(spark):
                 spark_round(total_carbon / col("total_generation_mw"), 2)
             )
 
-    snapshot.write.format("delta").mode("overwrite").save(gold_path)
+    snapshot.write.format("delta").mode("overwrite").option("overwriteSchema", "true").save(gold_path)
     print(f"  ✅ fct_hourly_grid_snapshot: {snapshot.count()} rows, {len(snapshot.columns)} columns")
 
 
@@ -284,7 +284,7 @@ def build_mart_daily_summary(spark):
 
     daily = daily.orderBy("date")
 
-    daily.write.format("delta").mode("overwrite").save(gold_path)
+    daily.write.format("delta").mode("overwrite").option("overwriteSchema", "true").save(gold_path)
     print(f"  ✅ mart_daily_summary: {daily.count()} rows")
 
 
@@ -332,7 +332,7 @@ def build_mart_carbon_intensity(spark):
         col("carbon_intensity_gco2_kwh") < 200, "Moderate"
     ).otherwise("Dirty"))
 
-    carbon.write.format("delta").mode("overwrite").save(gold_path)
+    carbon.write.format("delta").mode("overwrite").option("overwriteSchema", "true").save(gold_path)
     print(f"  ✅ mart_carbon_intensity: {carbon.count()} rows")
 
 

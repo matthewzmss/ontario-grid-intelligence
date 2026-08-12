@@ -111,7 +111,7 @@ def transform_demand(spark):
         col("market_demand") - col("ontario_demand")
     )
 
-    df.write.format("delta").mode("overwrite").save(silver_path)
+    df.write.format("delta").mode("overwrite").option("overwriteSchema", "true").save(silver_path)
     print(f"  ✅ demand: {df.count()} rows")
 
 
@@ -198,7 +198,7 @@ def transform_generation(spark):
     # Add time features
     pivoted = add_time_features(pivoted)
 
-    pivoted.write.format("delta").mode("overwrite").save(silver_path)
+    pivoted.write.format("delta").mode("overwrite").option("overwriteSchema", "true").save(silver_path)
     print(f"  ✅ generation: {pivoted.count()} rows")
 
 
@@ -243,7 +243,7 @@ def transform_prices(spark):
     # Add time features
     df = add_time_features(df)
 
-    df.write.format("delta").mode("overwrite").save(silver_path)
+    df.write.format("delta").mode("overwrite").option("overwriteSchema", "true").save(silver_path)
     print(f"  ✅ prices: {df.count()} rows")
 
 
@@ -280,7 +280,7 @@ def transform_realtime(spark):
         spark_round(col("total_loss") / col("total_energy") * 100, 2)
     )
 
-    df.write.format("delta").mode("overwrite").save(silver_path)
+    df.write.format("delta").mode("overwrite").option("overwriteSchema", "true").save(silver_path)
     print(f"  ✅ realtime: {df.count()} rows")
 
 
@@ -323,7 +323,7 @@ def transform_intertie(spark):
     # Add time features
     df = add_time_features(df)
 
-    df.write.format("delta").mode("overwrite").save(silver_path)
+    df.write.format("delta").mode("overwrite").option("overwriteSchema", "true").save(silver_path)
     print(f"  ✅ intertie: {df.count()} rows")
 
 
@@ -380,7 +380,7 @@ def transform_weather(spark):
     # Add time features
     df = add_time_features(df)
 
-    df.write.format("delta").mode("overwrite").save(silver_path)
+    df.write.format("delta").mode("overwrite").option("overwriteSchema", "true").save(silver_path)
     print(f"  ✅ weather: {df.count()} rows")
 
 
